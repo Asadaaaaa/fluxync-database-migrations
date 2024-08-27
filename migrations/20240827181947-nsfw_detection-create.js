@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('integrated_applications', {
+    await queryInterface.createTable('nsfw_detection', {
       id: {
         type: Sequelize.BIGINT,
         allowNull: false,
@@ -15,34 +15,25 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal('uuid()')
       },
-      user_id: {
+      integrated_application_id: {
         type: Sequelize.BIGINT,
         allowNull: false,
         references: {
-          model: 'users',
+          model: 'integrated_applications',
           key: 'id'
         }
       },
-      name: {
-        type: Sequelize.STRING(60),
+      image_path: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      email: {
-        type: Sequelize.STRING(255),
+      image_label: {
+        type: Sequelize.ENUM('Porn', 'Neutral'),
         allowNull: false
       },
-      secret_key: {
-        type: Sequelize.STRING(64),
-        allowNull: true
-      },
-      balance: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-        defaultValue: 0
-      },
-      logo_path: {
-        type: Sequelize.STRING(255),
-        allowNull: true
+      image_score: {
+        type: Sequelize.DOUBLE,
+        allowNull: false
       },
       created_at: {
         type: Sequelize.DATE,
@@ -54,14 +45,10 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      deleted_at: {
-        type: Sequelize.DATE,
-        allowNull: true
-      }
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('integrated_applications');
+    await queryInterface.dropTable('nsfw_detection');
   }
 };
