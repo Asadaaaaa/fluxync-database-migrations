@@ -13,7 +13,7 @@ module.exports = {
       uuid: {
         type: Sequelize.UUID,
         allowNull: false,
-        defaultValue: Sequelize.literal('uuid()')
+        defaultValue: Sequelize.UUIDV4
       },
       integrated_application_id: {
         type: Sequelize.BIGINT,
